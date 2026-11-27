@@ -86,7 +86,7 @@
     <footer id="kontak" class="bg-primary text-white">
         <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_1fr]">
             <div>
-                <BrandMark tone="light" />
+                <BrandMark variant="lockup" />
                 <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/80">
                     Belajar langsung di proyek renovasi, interior, dan material bangunan bersama tim Jaya Intero di Medan.
                 </p>

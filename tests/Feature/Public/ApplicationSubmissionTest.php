@@ -189,6 +189,15 @@ test('uploaded documents are not publicly reachable', function () {
     expect($this->get('/storage/'.$path)->status())->toBeIn([403, 404]);
 });
 
+test('emails carry the Jaya Intero logo instead of the Laravel one', function () {
+    $application = Application::factory()->for($this->program)->create();
+
+    $html = (string) (new ApplicationSubmitted($application))->toMail($application)->render();
+
+    expect($html)->toContain('images/logo-mark.png')
+        ->not->toContain('laravel.com/img');
+});
+
 test('the confirmation email contains the application code', function () {
     $application = Application::factory()->for($this->program)->create();
 
