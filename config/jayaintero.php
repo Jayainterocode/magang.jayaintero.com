@@ -4,20 +4,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Public Contact Details
+    | Default Site Settings
     |--------------------------------------------------------------------------
     |
-    | Shown in the public footer. These move to the admin "Pengaturan" screen
-    | once the settings table exists (phase 2).
+    | Used until an admin saves a value on the "Pengaturan" screen, which
+    | stores overrides in the settings table.
     |
     */
 
-    'contact' => [
-        'instagram' => 'jayaintero.id',
-        'whatsapp' => '0821 6863 9543',
-        'whatsapp_link' => 'https://wa.me/6282168639543',
-        'youtube' => 'JAYA INTERO',
-        'address' => 'Jl. Ngumban Surbakti No.61 D, Medan Selayang',
+    'settings' => [
+        'contact_instagram' => 'jayaintero.id',
+        'contact_whatsapp' => '0821 6863 9543',
+        'contact_youtube' => 'JAYA INTERO',
+        'contact_address' => 'Jl. Ngumban Surbakti No.61 D, Medan Selayang',
+        'registration_open' => '1',
     ],
 
 ];

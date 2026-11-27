@@ -9,13 +9,27 @@
     const user = $derived(page.props.auth.user);
     const status = $derived(page.props.flash.status);
 
-    const navigation = [
-        { label: 'Dashboard', href: '/admin', isReady: true },
-        { label: 'Lamaran', href: null, isReady: false },
-        { label: 'Program Magang', href: null, isReady: false },
-        { label: 'Konten', href: null, isReady: false },
-        { label: 'Pengaturan', href: null, isReady: false },
-    ];
+    const canManageRecruitment = $derived(page.props.auth.canManageRecruitment);
+
+    const navigation = $derived(
+        [
+            { label: 'Dashboard', href: '/admin', isReady: true },
+            { label: 'Lamaran', href: null, isReady: false, adminOnly: true },
+            { label: 'Program Magang', href: '/admin/programs', isReady: true, adminOnly: true },
+            { label: 'Artikel', href: '/admin/posts', isReady: true },
+            { label: 'FAQ', href: '/admin/faqs', isReady: true },
+            { label: 'Galeri', href: '/admin/gallery', isReady: true },
+            { label: 'Halaman', href: '/admin/pages', isReady: true },
+            { label: 'Pengaturan', href: '/admin/settings', isReady: true, adminOnly: true },
+        ].filter((item) => !item.adminOnly || canManageRecruitment),
+    );
+
+    /** @param {string} href */
+    function isActive(href) {
+        const path = page.url.split('?')[0];
+
+        return href === '/admin' ? path === href : path === href || path.startsWith(`${href}/`);
+    }
 
     const roleLabels = { admin: 'Admin', editor: 'Editor konten' };
 </script>
@@ -36,7 +50,8 @@
                 {#if item.isReady}
                     <Link
                         href={item.href}
-                        class="flex items-center rounded-lg px-3 py-2.5 text-sm font-semibold {page.url === item.href
+                        onclick={() => (isSidebarOpen = false)}
+                        class="flex items-center rounded-lg px-3 py-2.5 text-sm font-semibold {isActive(item.href)
                             ? 'bg-white/15 text-white'
                             : 'text-white/80 hover:bg-white/10'}"
                     >

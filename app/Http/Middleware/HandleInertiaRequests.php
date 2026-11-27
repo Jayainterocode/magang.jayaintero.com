@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -39,8 +40,9 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => fn (): ?array => $request->user()?->only('id', 'name', 'email', 'role'),
+                'canManageRecruitment' => fn (): bool => (bool) $request->user()?->can('manage-recruitment'),
             ],
-            'contact' => config('jayaintero.contact'),
+            'contact' => fn (): array => Setting::contact(),
             'flash' => [
                 'status' => fn (): ?string => $request->session()->get('status'),
             ],

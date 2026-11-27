@@ -9,11 +9,19 @@
     const contact = $derived(page.props.contact);
 
     const navigation = [
-        { label: 'Beranda', href: '/' },
-        { label: 'Alur Daftar', href: '/#alur' },
-        { label: 'Program', href: '/#program' },
-        { label: 'Kontak', href: '/#kontak' },
+        { label: 'Program', href: '/program' },
+        { label: 'Tentang', href: '/tentang' },
+        { label: 'Artikel', href: '/artikel' },
+        { label: 'Galeri', href: '/galeri' },
+        { label: 'FAQ', href: '/faq' },
     ];
+
+    /** @param {string} href */
+    function isActive(href) {
+        const path = page.url.split('?')[0];
+
+        return path === href || path.startsWith(`${href}/`);
+    }
 </script>
 
 <div class="flex min-h-screen flex-col">
@@ -25,11 +33,15 @@
 
             <nav class="hidden items-center gap-8 md:flex" aria-label="Navigasi utama">
                 {#each navigation as item (item.href)}
-                    <a href={item.href} class="text-sm font-semibold text-ink transition hover:text-primary">
+                    <Link
+                        href={item.href}
+                        class="text-sm font-semibold transition hover:text-primary {isActive(item.href) ? 'text-primary' : 'text-ink'}"
+                        aria-current={isActive(item.href) ? 'page' : undefined}
+                    >
                         {item.label}
-                    </a>
+                    </Link>
                 {/each}
-                <a href="/#program" class="btn-primary py-2.5">Daftar Magang</a>
+                <Link href="/program" class="btn-primary py-2.5">Daftar Magang</Link>
             </nav>
 
             <button
@@ -53,15 +65,15 @@
         {#if isMenuOpen}
             <nav id="mobile-menu" class="border-t border-line bg-white px-4 pb-4 md:hidden" aria-label="Navigasi seluler">
                 {#each navigation as item (item.href)}
-                    <a
+                    <Link
                         href={item.href}
-                        class="block py-3 text-base font-semibold text-ink"
+                        class="block py-3 text-base font-semibold {isActive(item.href) ? 'text-primary' : 'text-ink'}"
                         onclick={() => (isMenuOpen = false)}
                     >
                         {item.label}
-                    </a>
+                    </Link>
                 {/each}
-                <a href="/#program" class="btn-primary mt-2 w-full" onclick={() => (isMenuOpen = false)}>Daftar Magang</a>
+                <Link href="/program" class="btn-primary mt-2 w-full" onclick={() => (isMenuOpen = false)}>Daftar Magang</Link>
             </nav>
         {/if}
     </header>

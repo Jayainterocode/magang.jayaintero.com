@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Faq;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,7 +15,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      *
-     * Local development accounts only; both use the factory password "password".
+     * Local development data only; both accounts use the factory password "password".
      */
     public function run(): void
     {
@@ -26,5 +28,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Editor Konten',
             'email' => 'editor@magang.test',
         ]);
+
+        $this->call([
+            PageSeeder::class,
+            ProgramSeeder::class,
+        ]);
+
+        Faq::factory()->count(6)->create();
+        Post::factory()->count(4)->create();
     }
 }
