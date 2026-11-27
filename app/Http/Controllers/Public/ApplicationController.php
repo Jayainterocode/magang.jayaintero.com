@@ -24,6 +24,7 @@ class ApplicationController extends Controller
     public function create(Request $request): Response
     {
         $programs = Program::query()
+            ->withAcceptedCount()
             ->published()
             ->orderBy('title')
             ->get()

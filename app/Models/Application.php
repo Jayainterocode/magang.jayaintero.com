@@ -7,6 +7,8 @@ use App\Enums\EducationLevel;
 use App\Enums\Gender;
 use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,6 +53,34 @@ class Application extends Model
             $application->code = sprintf('MG-%s-%04d', $application->created_at->format('Y'), $application->id);
             $application->saveQuietly();
         });
+    }
+
+    /**
+     * Admin list filters, shared by the table and the CSV export.
+     *
+     * @param  array{search?: ?string, program_id?: int|string|null, status?: ?string, education_level?: ?string}  $filters
+     */
+    #[Scope]
+    protected function filter(Builder $query, array $filters): void
+    {
+        $query
+            ->when($filters['search'] ?? null, function (Builder $query, string $search): void {
+                $query->where(function (Builder $query) use ($search): void {
+                    $query->where('full_name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('code', 'like', "%{$search}%")
+                        ->orWhere('institution', 'like', "%{$search}%");
+                });
+            })
+            ->when($filters['program_id'] ?? null, fn (Builder $query, $programId) => $query->where('program_id', $programId))
+            ->when(
+                ApplicationStatus::tryFrom((string) ($filters['status'] ?? '')),
+                fn (Builder $query, ApplicationStatus $status) => $query->where('status', $status),
+            )
+            ->when(
+                EducationLevel::tryFrom((string) ($filters['education_level'] ?? '')),
+                fn (Builder $query, EducationLevel $level) => $query->where('education_level', $level),
+            );
     }
 
     /**

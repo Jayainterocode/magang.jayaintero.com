@@ -14,7 +14,7 @@
     const navigation = $derived(
         [
             { label: 'Dashboard', href: '/admin', isReady: true },
-            { label: 'Lamaran', href: null, isReady: false, adminOnly: true },
+            { label: 'Lamaran', href: '/admin/applications', isReady: true, adminOnly: true },
             { label: 'Program Magang', href: '/admin/programs', isReady: true, adminOnly: true },
             { label: 'Artikel', href: '/admin/posts', isReady: true },
             { label: 'FAQ', href: '/admin/faqs', isReady: true },

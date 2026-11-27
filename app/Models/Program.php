@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ApplicationStatus;
 use App\Enums\EducationLevel;
 use App\Models\Concerns\HasUniqueSlug;
 use Database\Factories\ProgramFactory;
@@ -73,11 +74,36 @@ class Program extends Model
     }
 
     /**
-     * Open for applicants: the program is open and registration is switched on site-wide.
+     * Open for applicants: the program is open, its quota is not filled,
+     * and registration is switched on site-wide.
      */
     public function isAcceptingApplications(): bool
     {
-        return $this->isOpen() && Setting::value('registration_open') === '1';
+        return $this->isOpen() && ! $this->isFull() && Setting::value('registration_open') === '1';
+    }
+
+    /**
+     * The quota counts accepted applicants. Uses `accepted_applications_count`
+     * when the query loaded it with withAcceptedCount(), otherwise counts.
+     */
+    public function isFull(): bool
+    {
+        if ($this->quota === null) {
+            return false;
+        }
+
+        $acceptedCount = $this->accepted_applications_count
+            ?? $this->applications()->where('status', ApplicationStatus::Accepted)->count();
+
+        return $acceptedCount >= $this->quota;
+    }
+
+    #[Scope]
+    protected function withAcceptedCount(Builder $query): void
+    {
+        $query->withCount([
+            'applications as accepted_applications_count' => fn (Builder $query) => $query->where('status', ApplicationStatus::Accepted),
+        ]);
     }
 
     /**

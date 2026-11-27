@@ -40,6 +40,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Recruitment and site settings: admins only.
         Route::middleware('can:manage-recruitment')->group(function () {
+            Route::get('applications', [Admin\ApplicationController::class, 'index'])->name('applications.index');
+            Route::get('applications/export', Admin\ApplicationExportController::class)->name('applications.export');
+            Route::get('applications/{application}', [Admin\ApplicationController::class, 'show'])->name('applications.show');
+            Route::put('applications/{application}/status', [Admin\ApplicationController::class, 'updateStatus'])->name('applications.status.update');
+            Route::get('applications/{application}/documents/{document}', Admin\ApplicationDocumentController::class)
+                ->scopeBindings()
+                ->name('applications.documents.show');
+
             Route::resource('programs', Admin\ProgramController::class)->except('show');
             Route::get('settings', [Admin\SettingController::class, 'edit'])->name('settings.edit');
             Route::put('settings', [Admin\SettingController::class, 'update'])->name('settings.update');

@@ -17,6 +17,7 @@ class HomeController extends Controller
         $page = Page::forKey('home');
 
         $openPrograms = Program::query()
+            ->withAcceptedCount()
             ->published()
             ->orderByDesc('opens_at')
             ->get()

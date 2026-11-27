@@ -13,6 +13,7 @@ class ProgramController extends Controller
     public function index(): Response
     {
         $programs = Program::query()
+            ->withAcceptedCount()
             ->published()
             ->orderByDesc('opens_at')
             ->get()
