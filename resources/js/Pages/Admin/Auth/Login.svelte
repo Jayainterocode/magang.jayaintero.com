@@ -10,7 +10,7 @@
 
 <div class="grid min-h-screen lg:grid-cols-2">
     <div class="bg-brand-gradient hidden flex-col justify-between p-12 text-white lg:flex">
-        <BrandMark variant="lockup" />
+        <BrandMark variant="lockup" subtitle="Admin Magang" />
         <div>
             <h1 class="text-5xl leading-[1.05] font-black uppercase">
                 Kelola magang <span class="text-accent">rapi</span> dalam satu tempat
