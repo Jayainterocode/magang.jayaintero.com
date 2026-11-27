@@ -3,7 +3,60 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+/*
+ * Jaya Intero design tokens.
+ * Primary blue carries the brand, yellow is a sparing accent (max ~15% of a view),
+ * and yellow text never sits directly on white.
+ */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+
+    --color-primary: #4070b3;
+    --color-primary-dark: #2d5592;
+    --color-secondary: #55a0d4;
+    --color-accent: #f4ca45;
+    --color-ink: #1d2b40;
+    --color-muted: #5b6b82;
+    --color-line: #dde5f0;
+    --color-surface: #f5f8fc;
+
+    --radius-card: 1.5rem;
+}
+
+@utility bg-brand-gradient {
+    background:
+        radial-gradient(60% 70% at 100% 0%, rgb(255 255 255 / 0.2), transparent 70%),
+        linear-gradient(35deg, var(--color-primary) 35%, var(--color-secondary) 100%);
+}
+
+@utility label-tag {
+    @apply text-xs font-bold tracking-wider uppercase;
+}
+
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-dark focus-visible:outline-primary;
+}
+
+@utility btn-accent {
+    @apply btn bg-accent text-primary-dark hover:brightness-95 focus-visible:outline-white;
+}
+
+@utility btn-ghost-light {
+    @apply btn border border-white/60 text-white hover:bg-white/10 focus-visible:outline-white;
+}
+
+@utility field-label {
+    @apply mb-1.5 block text-sm font-semibold text-ink;
+}
+
+@utility field-input {
+    @apply block w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none;
+}
+
+@utility field-error {
+    @apply mt-1.5 text-sm font-medium text-red-600;
 }

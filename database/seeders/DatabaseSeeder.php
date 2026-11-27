@@ -12,14 +12,19 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * Local development accounts only; both use the factory password "password".
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory()->admin()->create([
+            'name' => 'Admin Magang',
+            'email' => 'admin@magang.test',
+        ]);
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Editor Konten',
+            'email' => 'editor@magang.test',
         ]);
     }
 }
