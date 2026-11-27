@@ -77,6 +77,10 @@ class ProgramController extends Controller
 
     public function destroy(Program $program): RedirectResponse
     {
+        if ($program->applications()->exists()) {
+            return back()->with('status', 'Program ini sudah punya lamaran, jadi tidak bisa dihapus. Hapus centang "Tampilkan di website" untuk menyembunyikannya.');
+        }
+
         $program->delete();
 
         return to_route('admin.programs.index')->with('status', 'Program dihapus.');

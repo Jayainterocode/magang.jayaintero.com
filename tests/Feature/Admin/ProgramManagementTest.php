@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\EducationLevel;
+use App\Models\Application;
 use App\Models\Program;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -89,6 +90,19 @@ test('an unchecked publish box saves the program as a draft', function () {
 
     expect($program->fresh()->is_published)->toBeFalse()
         ->and($program->fresh()->title)->toBe('Magang Desain Interior');
+});
+
+test('a program with applications cannot be deleted', function () {
+    $program = Program::factory()->create();
+    Application::factory()->for($program)->create();
+
+    $this->actingAs(User::factory()->admin()->create())
+        ->from(route('admin.programs.index'))
+        ->delete(route('admin.programs.destroy', $program))
+        ->assertRedirect(route('admin.programs.index'))
+        ->assertSessionHas('status');
+
+    expect(Program::count())->toBe(1);
 });
 
 test('admins can delete a program', function () {

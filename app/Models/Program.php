@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'title', 'slug', 'division', 'education_levels', 'summary', 'description',
@@ -34,6 +35,14 @@ class Program extends Model
             'closes_at' => 'date',
             'is_published' => 'boolean',
         ];
+    }
+
+    /**
+     * @return HasMany<Application, $this>
+     */
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
     }
 
     #[Scope]

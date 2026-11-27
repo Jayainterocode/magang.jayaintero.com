@@ -14,6 +14,12 @@ Route::get('tentang', [Public\PageController::class, 'about'])->name('about');
 Route::get('faq', [Public\FaqController::class, 'index'])->name('faq');
 Route::get('galeri', [Public\GalleryController::class, 'index'])->name('gallery');
 
+Route::get('daftar', [Public\ApplicationController::class, 'create'])->name('applications.create');
+Route::post('daftar', [Public\ApplicationController::class, 'store'])->middleware('throttle:applications')->name('applications.store');
+Route::get('daftar/terkirim', [Public\ApplicationController::class, 'submitted'])->name('applications.submitted');
+Route::get('cek-status', [Public\ApplicationStatusController::class, 'show'])->name('applications.status');
+Route::post('cek-status', [Public\ApplicationStatusController::class, 'check'])->middleware('throttle:status-check')->name('applications.status.check');
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [LoginController::class, 'create'])->name('login');

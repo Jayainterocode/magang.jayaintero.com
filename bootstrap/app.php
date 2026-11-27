@@ -4,6 +4,7 @@ use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -21,6 +22,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (ThrottleRequestsException $exception, Request $request) {
+            if ($request->expectsJson()) {
+                return null;
+            }
+
+            return back()->withErrors([
+                'form' => 'Terlalu banyak percobaan dari perangkat ini. Coba lagi beberapa saat lagi.',
+            ]);
+        });
+
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

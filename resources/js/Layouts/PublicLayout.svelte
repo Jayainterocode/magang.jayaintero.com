@@ -14,6 +14,7 @@
         { label: 'Artikel', href: '/artikel' },
         { label: 'Galeri', href: '/galeri' },
         { label: 'FAQ', href: '/faq' },
+        { label: 'Cek Status', href: '/cek-status' },
     ];
 
     /** @param {string} href */
@@ -41,7 +42,7 @@
                         {item.label}
                     </Link>
                 {/each}
-                <Link href="/program" class="btn-primary py-2.5">Daftar Magang</Link>
+                <Link href="/daftar" class="btn-primary py-2.5">Daftar Magang</Link>
             </nav>
 
             <button
@@ -73,7 +74,7 @@
                         {item.label}
                     </Link>
                 {/each}
-                <Link href="/program" class="btn-primary mt-2 w-full" onclick={() => (isMenuOpen = false)}>Daftar Magang</Link>
+                <Link href="/daftar" class="btn-primary mt-2 w-full" onclick={() => (isMenuOpen = false)}>Daftar Magang</Link>
             </nav>
         {/if}
     </header>

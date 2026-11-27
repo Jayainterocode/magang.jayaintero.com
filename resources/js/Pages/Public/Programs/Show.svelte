@@ -61,12 +61,19 @@
 
         <div class="mt-6 border-t border-line pt-6">
             {#if program.is_open}
-                <p class="text-sm text-muted">Form lamaran online segera tersedia. Sementara itu, tanyakan program ini lewat WhatsApp.</p>
+                <Link href="/daftar?program={program.slug}" class="btn-accent w-full">Lamar sekarang</Link>
             {:else}
                 <p class="text-sm text-muted">Pendaftaran program ini sedang tutup.</p>
             {/if}
             {#if contact.whatsapp_link}
-                <a href={contact.whatsapp_link} target="_blank" rel="noopener" class="btn-primary mt-4 w-full">Tanya via WhatsApp</a>
+                <a
+                    href={contact.whatsapp_link}
+                    target="_blank"
+                    rel="noopener"
+                    class="btn mt-3 w-full border border-line text-ink hover:border-primary"
+                >
+                    Tanya via WhatsApp
+                </a>
             {/if}
             <Link href="/program" class="mt-3 block text-center text-sm font-semibold text-primary hover:underline">← Semua program</Link>
         </div>
