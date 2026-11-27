@@ -19,6 +19,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        if (app()->isProduction()) {
+            $this->command?->error('DatabaseSeeder creates demo accounts with the password "password" and must not run in production. Use PageSeeder only.');
+
+            return;
+        }
+
         User::factory()->admin()->create([
             'name' => 'Admin Magang',
             'email' => 'admin@magang.test',

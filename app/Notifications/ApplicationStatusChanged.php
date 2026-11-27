@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Enums\ApplicationStatus;
 use App\Models\Application;
+use App\Notifications\Concerns\EscapesMarkdown;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,7 +15,7 @@ use Illuminate\Notifications\Notification;
  */
 class ApplicationStatusChanged extends Notification implements ShouldQueue
 {
-    use Queueable;
+    use EscapesMarkdown, Queueable;
 
     public const Statuses = [
         ApplicationStatus::Interview,
@@ -49,7 +50,7 @@ class ApplicationStatusChanged extends Notification implements ShouldQueue
 
         $mail = (new MailMessage)
             ->subject("Kabar lamaran magang: {$status->label()} · {$this->application->code}")
-            ->greeting("Halo {$this->application->full_name},")
+            ->greeting('Halo '.self::escapeMarkdown($this->application->full_name).',')
             ->line("Ada kabar terbaru untuk lamaranmu di program **{$this->application->program->title}** ({$this->application->code}).")
             ->line("**Status: {$status->label()}**")
             ->line($status->applicantDescription());

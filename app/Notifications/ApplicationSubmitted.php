@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Application;
+use App\Notifications\Concerns\EscapesMarkdown;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Notification;
 
 class ApplicationSubmitted extends Notification implements ShouldQueue
 {
-    use Queueable;
+    use EscapesMarkdown, Queueable;
 
     public function __construct(public Application $application) {}
 
@@ -28,7 +29,7 @@ class ApplicationSubmitted extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject("Lamaran magang diterima · {$this->application->code}")
-            ->greeting("Halo {$this->application->full_name},")
+            ->greeting('Halo '.self::escapeMarkdown($this->application->full_name).',')
             ->line("Terima kasih sudah melamar program **{$this->application->program->title}** di Jaya Intero.")
             ->line("Kode lamaranmu: **{$this->application->code}**")
             ->line('Simpan kode ini. Kamu bisa memantau status lamaran dengan kode tersebut dan email ini.')

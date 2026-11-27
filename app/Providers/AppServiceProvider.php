@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
          */
         Gate::define('manage-recruitment', fn (User $user): bool => $user->isAdmin());
 
+        // Complements the per-email lockout in LoginRequest: caps guesses across many accounts from one device.
+        RateLimiter::for('login', fn (Request $request): Limit => Limit::perMinute(20)->by($request->ip()));
         RateLimiter::for('applications', fn (Request $request): Limit => Limit::perHour(5)->by($request->ip()));
         RateLimiter::for('status-check', fn (Request $request): Limit => Limit::perMinute(10)->by($request->ip()));
 

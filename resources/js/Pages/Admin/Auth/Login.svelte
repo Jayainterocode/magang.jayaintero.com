@@ -37,6 +37,9 @@
 
             <Form action="/admin/login" method="post" resetOnError={['password']} class="mt-8 space-y-5">
                 {#snippet children({ errors, processing })}
+                    {#if errors.form}
+                        <p class="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700" role="alert">{errors.form}</p>
+                    {/if}
                     <div>
                         <label for="email" class="field-label">Email</label>
                         <input

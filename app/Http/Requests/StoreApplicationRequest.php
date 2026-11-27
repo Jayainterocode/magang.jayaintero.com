@@ -33,7 +33,7 @@ class StoreApplicationRequest extends FormRequest
 
             'program_id' => ['required', 'integer', $this->programIsAcceptingApplications(...), $this->noActiveApplicationForProgram(...)],
 
-            'full_name' => ['required', 'string', 'max:150'],
+            'full_name' => ['required', 'string', 'max:150', "regex:/^[\\pL\\pM\\s.,'\\-]+$/u"],
             'email' => ['required', 'string', 'email', 'max:150'],
             'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9 +\-]{8,}$/'],
             'birth_date' => ['required', 'date', 'before:-14 years'],
@@ -95,6 +95,7 @@ class StoreApplicationRequest extends FormRequest
     {
         return [
             'birth_date.before' => 'Usia pelamar minimal 14 tahun.',
+            'full_name.regex' => 'Nama lengkap hanya boleh berisi huruf, spasi, titik, koma, apostrof, atau tanda hubung.',
             'phone.regex' => 'Nomor WhatsApp hanya boleh berisi angka, spasi, + atau -.',
             'supervisor_phone.regex' => 'Kontak pembimbing hanya boleh berisi angka, spasi, + atau -.',
             'consent.accepted' => 'Centang persetujuan penggunaan data untuk melanjutkan.',
