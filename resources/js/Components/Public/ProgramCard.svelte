@@ -19,7 +19,7 @@
         <div><dt class="sr-only">Jenjang</dt><dd class="font-bold">{program.education_levels.join(' · ')}</dd></div>
         <div><dt class="sr-only">Durasi</dt><dd class="font-bold">{program.duration_months} bulan</dd></div>
         {#if program.closes_at}
-            <div><dt class="inline text-muted">Tutup </dt><dd class="inline font-bold">{program.closes_at}</dd></div>
+            <div class="flex gap-1"><dt class="text-muted">Tutup</dt><dd class="font-bold">{program.closes_at}</dd></div>
         {/if}
     </dl>
     <Link href="/program/{program.slug}" class="btn-primary mt-6 w-full">Lihat detail</Link>
